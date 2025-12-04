@@ -1,4 +1,4 @@
-# Hardware configuration: GPU and graphics settings
+# Hardware configuration for desktop with NVIDIA GPU
 { ... }:
 
 {

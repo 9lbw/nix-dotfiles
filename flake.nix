@@ -13,14 +13,6 @@
     rust-overlay.url = "github:oxalica/rust-overlay";
     vicinae.url = "github:vicinaehq/vicinae";
     awww.url = "git+https://codeberg.org/LGFae/awww";
-    sd-webui-nix = {
-      url = "github:Janrupf/stable-diffusion-webui-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-doom-emacs-unstraightened = {
-      url = "github:marienz/nix-doom-emacs-unstraightened";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
   outputs =
     {
@@ -30,23 +22,20 @@
       mango,
       rust-overlay,
       vicinae,
-      sd-webui-nix,
-      nix-doom-emacs-unstraightened,
       ...
     }@inputs:
-    {
-      nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem {
+    let
+      mkSystem = hostname:
+        nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; };
           modules = [
-            ./configuration.nix
+            ./hosts/${hostname}/configuration.nix
             mango.nixosModules.mango
             home-manager.nixosModules.home-manager
             {
               nixpkgs.overlays = [
                 rust-overlay.overlays.default
-                sd-webui-nix.overlays.default
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -54,11 +43,15 @@
               home-manager.users.phillip = import ./home;
               home-manager.sharedModules = [
                 vicinae.homeManagerModules.default
-                nix-doom-emacs-unstraightened.homeModule
               ];
             }
           ];
         };
+    in
+    {
+      nixosConfigurations = {
+        desktop = mkSystem "desktop";
+        laptop = mkSystem "laptop";
       };
     };
 }

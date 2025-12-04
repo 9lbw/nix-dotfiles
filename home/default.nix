@@ -9,7 +9,6 @@
     ./zsh.nix
     ./ssh.nix
     ./services.nix
-    ./emacs.nix
   ];
 
   # Home Manager identity
