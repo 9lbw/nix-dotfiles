@@ -20,7 +20,6 @@
     swayimg
     lm_sensors
     inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
-    stable-diffusion-webui.forge.cuda
     ffmpeg
   ];
 }

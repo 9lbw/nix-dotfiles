@@ -9,7 +9,7 @@
     syntaxHighlighting.enable = true;
     shellAliases = {
       ll = "ls -l";
-      nrs = "sudo nixos-rebuild switch --flake ~/.config/nixos#nixos";
+      nrs = "sudo nixos-rebuild switch --flake ~/.config/nixos#$(hostname)";
       ff = "fastfetch";
       oc = "opencode";
     };
